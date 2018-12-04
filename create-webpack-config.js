@@ -45,9 +45,15 @@ module.exports = function createWebpackConfig(options = {}) {
     });
   }
 
-  each(entries, entry => {
-    entry.unshift(path.join(__dirname, 'canary.js'));
-  });
+  const babelLoaderUseEntry = {
+    loader: require.resolve('babel-loader'),
+    options: {
+      presets: [
+        require.resolve('@babel/preset-env'),
+        require.resolve('babel-preset-react-app')
+      ]
+    }
+  }
 
   return {
     mode,
@@ -55,7 +61,7 @@ module.exports = function createWebpackConfig(options = {}) {
     context: rootDirectory,
     entry: entries,
     output: {
-      filename: '[name].chunk.js',
+      filename: '[name].chunk.[hash].js',
       path: path.resolve(rootDirectory, outputDirectoryName),
       publicPath: '/templates/'
     },
@@ -65,15 +71,12 @@ module.exports = function createWebpackConfig(options = {}) {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          use: {
-            loader: require.resolve('babel-loader'),
-            options: {
-              presets: [
-                require.resolve('@babel/preset-env'),
-                require.resolve('babel-preset-react-app')
-              ]
-            }
-          }
+          use: babelLoaderUseEntry
+        },
+        {
+          test: /\.js$/,
+          include: __dirname, // Include files loaded from this module root
+          use: babelLoaderUseEntry // This uses the same babel config as on the other one
         },
         {
           test: /\.css$/,
