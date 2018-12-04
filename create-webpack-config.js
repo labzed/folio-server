@@ -75,7 +75,7 @@ module.exports = function createWebpackConfig(options = {}) {
         },
         {
           test: /\.js$/,
-          include: __dirname, // Include files loaded from this module root
+          include: require.resolve('launcher'),
           use: babelLoaderUseEntry // This uses the same babel config as on the other one
         },
         {
