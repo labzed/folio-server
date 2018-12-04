@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-class Printer {
+module.exports = class Printer {
   constructor() {
     // eager mode, launch browser right away.
     this.getBrowser();
@@ -43,4 +43,4 @@ class Printer {
       browser.close();
     }
   }
-}
+};
