@@ -4,10 +4,13 @@ const createWebpackFromFolioConfig = require('./create-webpack-from-folio-config
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const path = require('path');
-const port = 4000;
 const Printer = require('./printer');
 
-module.exports = function server({ mode = 'development', rootDirectory } = {}) {
+module.exports = function server({
+  port = 4000,
+  mode = 'development',
+  rootDirectory
+} = {}) {
   rootDirectory = rootDirectory || process.cwd();
   const isProduction = mode === 'production';
 
@@ -28,11 +31,13 @@ module.exports = function server({ mode = 'development', rootDirectory } = {}) {
   const printer = new Printer();
 
   router.get('/render/:templateName', async (req, res, next) => {
-    const printer = await startPrinterPromise;
     const payload = encodeURIComponent(req.query.payload);
+    const { templateName } = req.params;
     const pdf = await printer.print(
-      `http://localhost:4000/templates/${templateName}#${payload}`
+      `http://localhost:${port}/templates/${templateName}#${payload}`
     );
+
+    res.type('application/pdf').send(pdf);
   });
 
   app.use(router);
