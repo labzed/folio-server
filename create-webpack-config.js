@@ -39,9 +39,7 @@ module.exports = function createWebpackConfig(options = {}) {
 
     // Add HMR client file to each entry
     each(entries, entry => {
-      entry.push(
-        path.join(__dirname, '/node_modules/webpack-hot-middleware/client.js')
-      );
+      entry.push('webpack-hot-middleware/client');
     });
   }
 
