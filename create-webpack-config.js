@@ -53,7 +53,7 @@ module.exports = function createWebpackConfig(options = {}) {
         require.resolve('babel-preset-react-app')
       ]
     }
-  }
+  };
 
   return {
     mode,
@@ -75,7 +75,7 @@ module.exports = function createWebpackConfig(options = {}) {
         },
         {
           test: /\.js$/,
-          include: require.resolve('launcher'),
+          include: require.resolve('./launcher'),
           use: babelLoaderUseEntry // This uses the same babel config as on the other one
         },
         {
