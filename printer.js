@@ -26,7 +26,9 @@ module.exports = class Printer {
     try {
       // const url = 'http://localhost:4000'; // TODO configure port
       await page.goto(url, { waitUntil: 'networkidle2' });
-      const pdfOptions = {};
+      const pdfOptions = {
+        printBackground: true
+      };
       const pdf = await page.pdf(pdfOptions);
       return pdf;
     } catch (error) {
