@@ -79,6 +79,10 @@ module.exports = function createWebpackConfig(options = {}) {
         {
           test: /\.css$/,
           use: [require.resolve('style-loader'), require.resolve('css-loader')]
+        },
+        {
+          test: /\.woff2?$/,
+          use: [require.resolve('file-loader')]
         }
       ]
     },
